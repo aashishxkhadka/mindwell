@@ -3,37 +3,37 @@ export function TestimonialSection() {
     {
       quote:
         "MindWell has been a game-changer for my mental health journey. The mood tracking feature helps me identify patterns I never noticed before.",
-      author: "Aashish K.",
+      author: "Aashish.",
       role: "User for 8 months",
     },
     {
       quote:
         "The guided meditation exercises have helped me manage my anxiety better than anything else I've tried. I use them daily now.",
-      author: "Saran S.",
+      author: "Saran.",
       role: "User for 1 year",
     },
     {
       quote:
         "Being able to connect with others who understand what I'm going through in the support forum has made me feel less alone in my struggles.",
-      author: "Tej B.",
+      author: "Tej.",
       role: "User for 5 months",
     },
     {
       quote:
         "The self-assessment tools gave me insights about my mental health that I wasn't aware of. It helped me take the first step toward seeking help.",
-      author: "Sumana S.",
+      author: "Sumana.",
       role: "User for 6 months",
     },
     {
       quote:
         "The telepsychiatry feature made it so convenient to speak with a professional. I no longer had to worry about commuting or taking time off work.",
-      author: "Sabita U.",
+      author: "Sabita.",
       role: "User for 3 months",
     },
     {
       quote:
         "As someone who struggled with depression for years, MindWell's comprehensive approach has been instrumental in my recovery journey.",
-      author: "Yuvraj P.",
+      author: "Yuvraj.",
       role: "User for 9 months",
     },
   ]

@@ -95,138 +95,150 @@ const getRecommendations = (score: number) => {
 }
 
 export default function AssessmentPage() {
-  const [currentQuestion, setCurrentQuestion] = useState(0)
-  const [answers, setAnswers] = useState<Record<number, string>>({})
-  const [showResults, setShowResults] = useState(false)
+  const [answers, setAnswers] = useState<Record<number, number>>({})
+  const [answeredQuestions, setAnsweredQuestions] = useState(0)
   const { toast } = useToast()
 
-  const handleAnswer = (value: string) => {
-    setAnswers({ ...answers, [questions[currentQuestion].id]: value })
-
-    if (currentQuestion < questions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1)
-    } else {
-      setShowResults(true)
-    }
-  }
-
-  const calculateScore = () => {
-    return Object.values(answers).reduce((sum, value) => sum + Number.parseInt(value), 0)
-  }
-
-  const handleRestart = () => {
-    setAnswers({})
-    setCurrentQuestion(0)
-    setShowResults(false)
-  }
-
-  const handleSaveResults = () => {
-    // In a real app, this would save to a database
-    toast({
-      title: "Assessment results saved",
-      description: "Your results have been saved to your profile.",
+  const handleAnswerChange = (questionId: number, value: number) => {
+    setAnswers((prev) => {
+      const newAnswers = { ...prev, [questionId]: value }
+      const answeredCount = Object.keys(newAnswers).length
+      setAnsweredQuestions(answeredCount)
+      return newAnswers
     })
   }
 
-  const score = calculateScore()
-  const result = getResultCategory(score)
-  const recommendations = getRecommendations(score)
-  const progress = ((currentQuestion + 1) / questions.length) * 100
+  const handleSubmit = () => {
+    if (answeredQuestions < questions.length) {
+      toast({
+        title: "Please answer all questions",
+        description: "You need to answer all questions before submitting.",
+        variant: "destructive",
+      })
+      return
+    }
+
+    // Calculate score
+    const score = Object.values(answers).reduce((sum, value) => sum + value, 0)
+    
+    // Determine result
+    let result = {
+      category: "Minimal Depression",
+      color: "text-green-600",
+      recommendations: [
+        "Continue monitoring your mood",
+        "Practice self-care activities",
+        "Maintain a healthy lifestyle",
+      ],
+    }
+
+    if (score >= 5) {
+      result = {
+        category: "Mild Depression",
+        color: "text-yellow-600",
+        recommendations: [
+          "Consider talking to a counselor",
+          "Practice stress management techniques",
+          "Maintain a regular sleep schedule",
+        ],
+      }
+    }
+
+    if (score >= 10) {
+      result = {
+        category: "Moderate Depression",
+        color: "text-orange-600",
+        recommendations: [
+          "Schedule a consultation with a mental health professional",
+          "Consider joining a support group",
+          "Practice daily self-care and stress management",
+        ],
+      }
+    }
+
+    if (score >= 15) {
+      result = {
+        category: "Moderately Severe Depression",
+        color: "text-red-600",
+        recommendations: [
+          "Seek immediate professional help",
+          "Contact a crisis helpline if needed",
+          "Inform trusted friends or family members",
+        ],
+      }
+    }
+
+    if (score >= 20) {
+      result = {
+        category: "Severe Depression",
+        color: "text-red-700",
+        recommendations: [
+          "Seek immediate professional help",
+          "Contact emergency services if having thoughts of self-harm",
+          "Inform trusted friends or family members",
+        ],
+      }
+    }
+
+    toast({
+      title: "Assessment Complete",
+      description: `Your score: ${score}/27 - ${result.category}`,
+    })
+  }
 
   return (
-    <div className="container py-6 md:py-10">
-      <h1 className="mb-6 text-3xl font-bold">Self-Assessment</h1>
+    <div className="container py-6 md:py-10 px-6">
+      <div className="max-w-3xl mx-auto">
+        <h1 className="mb-6 text-3xl font-bold text-center">Self-Assessment</h1>
+        <p className="text-muted-foreground text-center mb-8">
+          This assessment is based on the PHQ-9 (Patient Health Questionnaire-9) and helps evaluate symptoms of depression.
+        </p>
 
-      <Card className="max-w-3xl mx-auto">
-        {!showResults ? (
-          <>
-            <CardHeader>
-              <CardTitle>Depression Screening (PHQ-9)</CardTitle>
-              <CardDescription>
-                Over the last 2 weeks, how often have you been bothered by the following problems?
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="mb-6">
-                <div className="flex justify-between text-sm mb-1">
-                  <span>
-                    Question {currentQuestion + 1} of {questions.length}
-                  </span>
-                  <span>{Math.round(progress)}%</span>
+        <Card>
+          <CardHeader>
+            <CardTitle>Depression Assessment</CardTitle>
+            <CardDescription>Please answer each question honestly about how you've been feeling over the past two weeks.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }} className="space-y-8">
+              {questions.map((question) => (
+                <div key={question.id} className="space-y-4">
+                  <p className="font-medium">{question.text}</p>
+                  <RadioGroup
+                    value={answers[question.id]?.toString()}
+                    onValueChange={(value) => handleAnswerChange(question.id, parseInt(value))}
+                    className="grid grid-cols-4 gap-4"
+                  >
+                    {options.map((option) => (
+                      <div key={option.value} className="flex items-center space-x-2">
+                        <RadioGroupItem value={option.value} id={`q${question.id}-${option.value}`} />
+                        <Label htmlFor={`q${question.id}-${option.value}`} className="text-sm">
+                          {option.label}
+                        </Label>
+                      </div>
+                    ))}
+                  </RadioGroup>
                 </div>
-                <Progress value={progress} className="h-2" />
-              </div>
-
-              <div className="space-y-4">
-                <h3 className="text-lg font-medium">{questions[currentQuestion].text}</h3>
-                <RadioGroup onValueChange={handleAnswer} className="space-y-3">
-                  {options.map((option) => (
-                    <div key={option.value} className="flex items-center space-x-2">
-                      <RadioGroupItem value={option.value} id={`option-${option.value}`} />
-                      <Label htmlFor={`option-${option.value}`}>{option.label}</Label>
-                    </div>
-                  ))}
-                </RadioGroup>
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button
-                variant="outline"
-                onClick={() => currentQuestion > 0 && setCurrentQuestion(currentQuestion - 1)}
-                disabled={currentQuestion === 0}
-                className="mr-2"
-              >
-                Previous
-              </Button>
-              <Button
-                onClick={() => currentQuestion < questions.length - 1 && setCurrentQuestion(currentQuestion + 1)}
-                disabled={!answers[questions[currentQuestion].id] || currentQuestion === questions.length - 1}
-              >
-                Next
-              </Button>
-            </CardFooter>
-          </>
-        ) : (
-          <>
-            <CardHeader>
-              <CardTitle>Assessment Results</CardTitle>
-              <CardDescription>Based on your responses to the PHQ-9 questionnaire</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="text-center">
-                <p className="text-lg mb-2">Your score:</p>
-                <p className="text-4xl font-bold mb-2">{score} / 27</p>
-                <p className={`text-xl font-medium ${result.color}`}>{result.category}</p>
-              </div>
-
-              <div>
-                <h3 className="text-lg font-medium mb-2">Recommendations:</h3>
-                <ul className="list-disc pl-5 space-y-2">
-                  {recommendations.map((rec, index) => (
-                    <li key={index}>{rec}</li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="bg-blue-50 dark:bg-blue-900 p-4 rounded-md">
-                <p className="text-sm">
-                  <strong>Note:</strong> This assessment is not a substitute for professional medical advice, diagnosis,
-                  or treatment. Always seek the advice of your physician or other qualified health provider with any
-                  questions you may have regarding a medical condition.
-                </p>
-              </div>
-            </CardContent>
-            <CardFooter className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-2">
-              <Button onClick={handleRestart} variant="outline" className="w-full sm:w-auto">
-                Take Assessment Again
-              </Button>
-              <Button onClick={handleSaveResults} className="w-full sm:w-auto">
-                Save Results
-              </Button>
-            </CardFooter>
-          </>
-        )}
-      </Card>
+              ))}
+            </form>
+          </CardContent>
+          <CardFooter className="flex flex-col space-y-4">
+            <div className="w-full">
+              <Progress value={(answeredQuestions / questions.length) * 100} className="h-2" />
+              <p className="text-sm text-muted-foreground mt-2">
+                {answeredQuestions} of {questions.length} questions answered
+              </p>
+            </div>
+            <Button
+              className="w-full"
+              onClick={handleSubmit}
+              disabled={answeredQuestions < questions.length}
+            >
+              Submit Assessment
+            </Button>
+          </CardFooter>
+        </Card>
+      </div>
     </div>
   )
 }

@@ -24,7 +24,6 @@ export default function LoginPage() {
 
     try {
       await login(email, password)
-      // Remove the toast notification since we're showing a custom success message
     } catch (error) {
       toast({
         title: "Login failed",

@@ -152,22 +152,24 @@ export default function BookingPage() {
                 <CardDescription>Choose your preferred consultation date and time</CardDescription>
               </CardHeader>
               <CardContent>
-                <Calendar
-                  mode="single"
-                  selected={selectedDate}
-                  onSelect={setSelectedDate}
-                  className="rounded-md border"
-                  disabled={(date) => {
-                    // Disable past dates
-                    const today = new Date()
-                    today.setHours(0, 0, 0, 0)
+                <div className="flex justify-center">
+                  <Calendar
+                    mode="single"
+                    selected={selectedDate}
+                    onSelect={setSelectedDate}
+                    className="rounded-md border w-fit"
+                    disabled={(date) => {
+                      // Disable past dates
+                      const today = new Date()
+                      today.setHours(0, 0, 0, 0)
 
-                    // Disable weekends
-                    const day = date.getDay()
+                      // Disable weekends
+                      const day = date.getDay()
 
-                    return date < today || day === 0 || day === 6
-                  }}
-                />
+                      return date < today || day === 0 || day === 6
+                    }}
+                  />
+                </div>
 
                 {selectedDate && (
                   <div className="mt-6">
@@ -275,9 +277,21 @@ export default function BookingPage() {
             <div className="rounded-lg bg-blue-50 p-4 dark:bg-blue-900">
               <p className="text-sm">
                 <strong>What's next?</strong> You'll receive a confirmation email with details about your appointment.
-                {consultationType === "video"
-                  ? " A link to join the video call will be sent 15 minutes before your scheduled time."
-                  : " Your therapist will call you at the scheduled time."}
+                {consultationType === "video" ? (
+                  <>
+                    {" "}Join your video call using this link:{" "}
+                    <a
+                      href="https://meet.google.com/wcx-tejq-jhb"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:underline dark:text-blue-400"
+                    >
+                      Join Google Meet
+                    </a>
+                  </>
+                ) : (
+                  " Your therapist will call you at the scheduled time."
+                )}
               </p>
             </div>
           </CardContent>

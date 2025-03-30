@@ -117,114 +117,119 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="container py-6 md:py-10">
-      <h1 className="mb-6 text-3xl font-bold">AI Support Chat</h1>
+    <div className="container py-6 md:py-10 px-6">
+      <div className="max-w-5xl mx-auto">
+        <h1 className="mb-6 text-3xl font-bold text-center">AI Support Chat</h1>
+        <p className="text-muted-foreground text-center mb-8">
+          Chat with our AI assistant for support and coping strategies
+        </p>
 
-      <Card className="max-w-3xl mx-auto">
-        <CardHeader>
-          <CardTitle>MindWell Assistant</CardTitle>
-          <CardDescription>Chat with our AI assistant for support and coping strategies</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="h-[500px] overflow-y-auto p-4 space-y-4">
-            {messages.map((message) => (
-              <div key={message.id} className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"}`}>
-                <div className={`flex gap-3 max-w-[80%] ${message.sender === "user" ? "flex-row-reverse" : ""}`}>
-                  <Avatar className="h-8 w-8">
-                    {message.sender === "bot" ? (
-                      <>
-                        <AvatarImage src="/placeholder.svg?height=32&width=32" alt="AI" />
-                        <AvatarFallback>AI</AvatarFallback>
-                      </>
-                    ) : (
-                      <AvatarFallback>U</AvatarFallback>
-                    )}
-                  </Avatar>
-                  <div
-                    className={`rounded-lg px-4 py-2 ${
-                      message.sender === "user" ? "bg-primary text-primary-foreground" : "bg-muted"
-                    }`}
-                  >
-                    <p>{message.content}</p>
-                    <p className="text-xs opacity-50 mt-1">
-                      {message.timestamp.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-
-            {isTyping && (
-              <div className="flex justify-start">
-                <div className="flex gap-3 max-w-[80%]">
-                  <Avatar className="h-8 w-8">
-                    <AvatarImage src="/placeholder.svg?height=32&width=32" alt="AI" />
-                    <AvatarFallback>AI</AvatarFallback>
-                  </Avatar>
-                  <div className="rounded-lg px-4 py-2 bg-muted">
-                    <div className="flex space-x-1">
-                      <div className="h-2 w-2 rounded-full bg-current animate-bounce" />
-                      <div className="h-2 w-2 rounded-full bg-current animate-bounce [animation-delay:0.2s]" />
-                      <div className="h-2 w-2 rounded-full bg-current animate-bounce [animation-delay:0.4s]" />
+        <Card className="min-h-[600px] flex flex-col">
+          <CardHeader>
+            <CardTitle className="text-center">MindWell Assistant</CardTitle>
+            <CardDescription className="text-center">Get immediate support and guidance</CardDescription>
+          </CardHeader>
+          <CardContent className="flex-1">
+            <div className="h-[500px] overflow-y-auto p-4 space-y-4">
+              {messages.map((message) => (
+                <div key={message.id} className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"}`}>
+                  <div className={`flex gap-3 max-w-[80%] ${message.sender === "user" ? "flex-row-reverse" : ""}`}>
+                    <Avatar className="h-10 w-10">
+                      {message.sender === "bot" ? (
+                        <>
+                          <AvatarImage src="/placeholder.svg?height=40&width=40" alt="AI" />
+                          <AvatarFallback>AI</AvatarFallback>
+                        </>
+                      ) : (
+                        <AvatarFallback>U</AvatarFallback>
+                      )}
+                    </Avatar>
+                    <div
+                      className={`rounded-lg px-4 py-3 ${
+                        message.sender === "user" ? "bg-primary text-primary-foreground" : "bg-muted"
+                      }`}
+                    >
+                      <p className="text-base">{message.content}</p>
+                      <p className="text-xs opacity-50 mt-1">
+                        {message.timestamp.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                      </p>
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
+              ))}
 
-            <div ref={messagesEndRef} />
+              {isTyping && (
+                <div className="flex justify-start">
+                  <div className="flex gap-3 max-w-[80%]">
+                    <Avatar className="h-10 w-10">
+                      <AvatarImage src="/placeholder.svg?height=40&width=40" alt="AI" />
+                      <AvatarFallback>AI</AvatarFallback>
+                    </Avatar>
+                    <div className="rounded-lg px-4 py-3 bg-muted">
+                      <div className="flex space-x-1">
+                        <div className="h-2 w-2 rounded-full bg-current animate-bounce" />
+                        <div className="h-2 w-2 rounded-full bg-current animate-bounce [animation-delay:0.2s]" />
+                        <div className="h-2 w-2 rounded-full bg-current animate-bounce [animation-delay:0.4s]" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <div ref={messagesEndRef} />
+            </div>
+          </CardContent>
+          <CardFooter>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault()
+                handleSendMessage()
+              }}
+              className="flex w-full items-center space-x-2"
+            >
+              <Input
+                placeholder="Type your message..."
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                className="flex-1"
+              />
+              <Button type="submit" size="icon" disabled={!input.trim() || isTyping}>
+                <Send className="h-4 w-4" />
+                <span className="sr-only">Send</span>
+              </Button>
+            </form>
+          </CardFooter>
+        </Card>
+
+        <div className="mt-6">
+          <h2 className="text-xl font-bold mb-4 text-center">Helpful Resources</h2>
+          <div className="grid gap-4 md:grid-cols-2">
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-lg text-center">Crisis Support</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-center">
+                  If you're in crisis or having thoughts of self-harm, please contact a crisis helpline immediately:
+                </p>
+                <p className="font-bold mt-2 text-center">988 Suicide & Crisis Lifeline</p>
+                <p className="text-sm text-center">Call or text 988</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-lg text-center">Coping Strategies</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="text-sm list-disc pl-4 space-y-1">
+                  <li>Practice deep breathing exercises</li>
+                  <li>Try progressive muscle relaxation</li>
+                  <li>Engage in physical activity</li>
+                  <li>Connect with supportive people</li>
+                </ul>
+              </CardContent>
+            </Card>
           </div>
-        </CardContent>
-        <CardFooter>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault()
-              handleSendMessage()
-            }}
-            className="flex w-full items-center space-x-2"
-          >
-            <Input
-              placeholder="Type your message..."
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              className="flex-1"
-            />
-            <Button type="submit" size="icon" disabled={!input.trim() || isTyping}>
-              <Send className="h-4 w-4" />
-              <span className="sr-only">Send</span>
-            </Button>
-          </form>
-        </CardFooter>
-      </Card>
-
-      <div className="mt-6 max-w-3xl mx-auto">
-        <h2 className="text-xl font-bold mb-4">Helpful Resources</h2>
-        <div className="grid gap-4 md:grid-cols-2">
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-lg">Crisis Support</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm">
-                If you're in crisis or having thoughts of self-harm, please contact a crisis helpline immediately:
-              </p>
-              <p className="font-bold mt-2">988 Suicide & Crisis Lifeline</p>
-              <p className="text-sm">Call or text 988</p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-lg">Coping Strategies</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="text-sm list-disc pl-4 space-y-1">
-                <li>Practice deep breathing exercises</li>
-                <li>Try progressive muscle relaxation</li>
-                <li>Engage in physical activity</li>
-                <li>Connect with supportive people</li>
-              </ul>
-            </CardContent>
-          </Card>
         </div>
       </div>
     </div>

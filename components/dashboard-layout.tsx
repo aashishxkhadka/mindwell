@@ -26,6 +26,7 @@ import { useTheme } from "next-themes"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Logo } from "@/components/logo"
+import { AIChatButton } from "@/components/ai-chat-button"
 
 interface DashboardLayoutProps {
   children: React.ReactNode
@@ -62,11 +63,11 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-40 border-b bg-background">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-2 md:hidden">
+        <div className="container flex h-16 items-center px-6">
+          <div className="flex items-center gap-4">
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="outline" size="icon">
+                <Button variant="outline" size="icon" className="md:hidden">
                   <Menu className="h-5 w-5" />
                   <span className="sr-only">Toggle menu</span>
                 </Button>
@@ -74,7 +75,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               <SheetContent side="left" className="w-64 sm:max-w-xs">
                 <div className="flex h-full flex-col">
                   <div className="flex items-center justify-between border-b px-4 py-2">
-                    <Logo />
+                    <Logo className="h-8 w-8" />
                     <SheetTrigger asChild>
                       <Button variant="ghost" size="icon">
                         <X className="h-5 w-5" />
@@ -100,32 +101,19 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                       ))}
                     </div>
                   </nav>
-                  <div className="border-t p-4">
-                    <Button variant="outline" className="w-full justify-start gap-2" onClick={() => logout()}>
-                      <LogOut className="h-4 w-4" />
-                      Logout
-                    </Button>
-                  </div>
                 </div>
               </SheetContent>
             </Sheet>
-            <Logo />
+            <Logo className="h-8 w-8" />
           </div>
-          <div className="hidden md:flex md:items-center md:gap-2">
-            <Logo />
-          </div>
-          <div className="flex items-center gap-2">
+          <div className="ml-auto flex items-center gap-6">
             <Button variant="ghost" size="icon" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
               {isMounted && theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
               <span className="sr-only">Toggle theme</span>
             </Button>
-            <Avatar>
+            <Avatar className="h-8 w-8">
               <AvatarFallback>{initials}</AvatarFallback>
             </Avatar>
-            <Button variant="outline" size="sm" className="hidden md:flex items-center gap-2" onClick={() => logout()}>
-              <LogOut className="h-4 w-4" />
-              Logout
-            </Button>
           </div>
         </div>
       </header>
@@ -158,8 +146,13 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             </div>
           </div>
         </aside>
-        <main className="flex-1 overflow-auto">{children}</main>
+        <main className="flex-1 overflow-auto">
+          <div className="container py-6 md:py-10 px-6">
+            {children}
+          </div>
+        </main>
       </div>
+      <AIChatButton />
     </div>
   )
 }

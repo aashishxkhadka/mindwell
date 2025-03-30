@@ -15,6 +15,7 @@ export default function DashboardPage() {
     time: "10:00 AM",
     type: "Video Call",
   })
+  const [streak, setStreak] = useState(7)
 
   // In a real app, this would fetch from an API
   useEffect(() => {
@@ -23,6 +24,10 @@ export default function DashboardPage() {
     if (bookedAppointment) {
       setUpcomingAppointment(JSON.parse(bookedAppointment))
     }
+
+    // In a real app, this would check the user's mood tracking history
+    // For demo, we'll keep it at 7 days
+    setStreak(7)
   }, [])
 
   const features = [
@@ -88,20 +93,20 @@ export default function DashboardPage() {
   ]
 
   return (
-    <div className="container py-6 md:py-10">
+    <div className="container py-6 md:py-10 px-6">
       <div className="mb-8">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div>
+          <div className="max-w-2xl">
             <h1 className="text-3xl font-bold">Welcome back, {user?.name}</h1>
             <p className="text-muted-foreground">Track your progress and access mental health resources</p>
           </div>
-          <div className="flex items-center gap-2 p-2 bg-primary/10 rounded-lg">
-            <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center">
-              <TrendingUp className="h-5 w-5 text-primary" />
+          <div className="flex items-center gap-2 p-4 bg-primary/10 rounded-lg">
+            <div className="h-12 w-12 rounded-full bg-primary/20 flex items-center justify-center">
+              <TrendingUp className="h-6 w-6 text-primary" />
             </div>
             <div>
               <p className="text-sm font-medium">Wellness Streak</p>
-              <p className="text-2xl font-bold">7 Days</p>
+              <p className="text-2xl font-bold">{streak} Days</p>
             </div>
           </div>
         </div>
@@ -160,9 +165,12 @@ export default function DashboardPage() {
                           {upcomingAppointment.date}, {upcomingAppointment.time}
                         </p>
                       </div>
-                      <Link href="/dashboard/book">
-                        <Button size="sm">Join Call</Button>
-                      </Link>
+                      <Button 
+                        size="sm" 
+                        onClick={() => window.open("https://meet.google.com/wcx-tejq-jhb", "_blank")}
+                      >
+                        Join Call
+                      </Button>
                     </div>
                   </div>
                 ) : (

@@ -91,151 +91,153 @@ export default function MoodTrackerPage() {
   }, [date, moodEntries])
 
   return (
-    <div className="container py-6 md:py-10">
-      <h1 className="mb-6 text-3xl font-bold">Mood Tracker</h1>
+    <div className="container py-6 md:py-10 px-6">
+      <div className="max-w-5xl mx-auto">
+        <h1 className="mb-6 text-3xl font-bold text-center">Mood Tracker</h1>
 
-      <Tabs defaultValue="log">
-        <TabsList className="mb-4">
-          <TabsTrigger value="log">Log Mood</TabsTrigger>
-          <TabsTrigger value="history">History</TabsTrigger>
-          <TabsTrigger value="trends">Trends</TabsTrigger>
-        </TabsList>
+        <Tabs defaultValue="log">
+          <TabsList className="mb-4 w-full justify-center">
+            <TabsTrigger value="log">Log Mood</TabsTrigger>
+            <TabsTrigger value="history">History</TabsTrigger>
+            <TabsTrigger value="trends">Trends</TabsTrigger>
+          </TabsList>
 
-        <TabsContent value="log">
-          <div className="grid gap-6 md:grid-cols-2">
-            <Card>
-              <CardHeader>
-                <CardTitle>Select Date</CardTitle>
-                <CardDescription>Choose the date for your mood entry</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Calendar
-                  mode="single"
-                  selected={date}
-                  onSelect={(date) => date && setDate(date)}
-                  className="rounded-md border"
-                />
-              </CardContent>
-            </Card>
+          <TabsContent value="log">
+            <div className="grid gap-6 md:grid-cols-2">
+              <Card className="w-full">
+                <CardHeader>
+                  <CardTitle className="text-center">Select Date</CardTitle>
+                  <CardDescription className="text-center">Choose the date for your mood entry</CardDescription>
+                </CardHeader>
+                <CardContent className="flex justify-center">
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={(date) => date && setDate(date)}
+                    className="rounded-md border"
+                  />
+                </CardContent>
+              </Card>
 
-            <Card>
-              <CardHeader>
-                <CardTitle>How are you feeling today?</CardTitle>
-                <CardDescription>Select your mood and add optional notes</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="space-y-2">
-                    <div className="flex justify-between">
-                      {moodLabels.map((label, index) => (
-                        <Button
-                          key={label}
-                          type="button"
-                          variant={mood === index + 1 ? "default" : "outline"}
-                          className="flex-1 mx-1"
-                          onClick={() => setMood(index + 1)}
-                        >
-                          {label}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label htmlFor="note" className="text-sm font-medium">
-                      Notes (optional)
-                    </label>
-                    <textarea
-                      id="note"
-                      className="w-full min-h-[100px] rounded-md border border-input bg-background px-3 py-2 text-sm"
-                      placeholder="Add any notes about your day..."
-                      value={note}
-                      onChange={(e) => setNote(e.target.value)}
-                    />
-                  </div>
-
-                  <Button type="submit" className="w-full">
-                    Save Mood Entry
-                  </Button>
-                </form>
-              </CardContent>
-            </Card>
-          </div>
-        </TabsContent>
-
-        <TabsContent value="history">
-          <Card>
-            <CardHeader>
-              <CardTitle>Mood History</CardTitle>
-              <CardDescription>View your past mood entries</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {moodEntries.length > 0 ? (
-                  moodEntries
-                    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-                    .map((entry) => (
-                      <div key={entry.date} className="flex items-center justify-between border-b pb-4">
-                        <div>
-                          <p className="font-medium">
-                            {new Date(entry.date).toLocaleDateString("en-US", {
-                              weekday: "long",
-                              year: "numeric",
-                              month: "long",
-                              day: "numeric",
-                            })}
-                          </p>
-                          <p className="text-sm text-muted-foreground">{entry.note}</p>
-                        </div>
-                        <div className="text-right">
-                          <span className="font-bold">{moodLabels[entry.mood - 1]}</span>
-                        </div>
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-center">How are you feeling today?</CardTitle>
+                  <CardDescription className="text-center">Select your mood and add optional notes</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="space-y-2">
+                      <div className="flex justify-between gap-2">
+                        {moodLabels.map((label, index) => (
+                          <Button
+                            key={label}
+                            type="button"
+                            variant={mood === index + 1 ? "default" : "outline"}
+                            className="flex-1"
+                            onClick={() => setMood(index + 1)}
+                          >
+                            {label}
+                          </Button>
+                        ))}
                       </div>
-                    ))
-                ) : (
-                  <p>No mood entries yet. Start tracking your mood!</p>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
+                    </div>
 
-        <TabsContent value="trends">
-          <Card>
-            <CardHeader>
-              <CardTitle>Mood Trends</CardTitle>
-              <CardDescription>Visualize your mood patterns over time</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="h-[300px] w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={chartData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="date" />
-                    <YAxis domain={[1, 5]} ticks={[1, 2, 3, 4, 5]} />
-                    <Tooltip formatter={(value) => [`${moodLabels[Number(value) - 1]}`, "Mood"]} />
-                    <Line
-                      type="monotone"
-                      dataKey="mood"
-                      stroke="#8884d8"
-                      strokeWidth={2}
-                      dot={{ r: 6 }}
-                      activeDot={{ r: 8 }}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
-              <div className="mt-4">
-                <h3 className="font-medium">Insights</h3>
-                <p className="text-sm text-muted-foreground">
-                  Your mood has been relatively stable over the past week with some fluctuations. Try to identify
-                  patterns and triggers that affect your mood.
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+                    <div className="space-y-2">
+                      <label htmlFor="note" className="text-sm font-medium">
+                        Notes (optional)
+                      </label>
+                      <textarea
+                        id="note"
+                        className="w-full min-h-[150px] rounded-md border border-input bg-background px-3 py-2 text-sm"
+                        placeholder="Add any notes about your day..."
+                        value={note}
+                        onChange={(e) => setNote(e.target.value)}
+                      />
+                    </div>
+
+                    <Button type="submit" className="w-full">
+                      Save Mood Entry
+                    </Button>
+                  </form>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="history">
+            <Card>
+              <CardHeader>
+                <CardTitle>Mood History</CardTitle>
+                <CardDescription>View your past mood entries</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {moodEntries.length > 0 ? (
+                    moodEntries
+                      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+                      .map((entry) => (
+                        <div key={entry.date} className="flex items-center justify-between border-b pb-4">
+                          <div>
+                            <p className="font-medium">
+                              {new Date(entry.date).toLocaleDateString("en-US", {
+                                weekday: "long",
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                              })}
+                            </p>
+                            <p className="text-sm text-muted-foreground">{entry.note}</p>
+                          </div>
+                          <div className="text-right">
+                            <span className="font-bold">{moodLabels[entry.mood - 1]}</span>
+                          </div>
+                        </div>
+                      ))
+                  ) : (
+                    <p>No mood entries yet. Start tracking your mood!</p>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="trends">
+            <Card>
+              <CardHeader>
+                <CardTitle>Mood Trends</CardTitle>
+                <CardDescription>Visualize your mood patterns over time</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="h-[300px] w-full">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={chartData}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="date" />
+                      <YAxis domain={[1, 5]} ticks={[1, 2, 3, 4, 5]} />
+                      <Tooltip formatter={(value) => [`${moodLabels[Number(value) - 1]}`, "Mood"]} />
+                      <Line
+                        type="monotone"
+                        dataKey="mood"
+                        stroke="#8884d8"
+                        strokeWidth={2}
+                        dot={{ r: 6 }}
+                        activeDot={{ r: 8 }}
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+                <div className="mt-4">
+                  <h3 className="font-medium">Insights</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Your mood has been relatively stable over the past week with some fluctuations. Try to identify
+                    patterns and triggers that affect your mood.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   )
 }

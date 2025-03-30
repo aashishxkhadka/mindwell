@@ -11,25 +11,25 @@ export default function AboutPage() {
       name: "Dr. Aashish Khadka",
       role: "Founder & Psychiatrist",
       bio: "Dr. Aashish Khadka is a board-certified psychiatrist with over 10 years of experience in treating depression, anxiety, and other mental health conditions. He founded MindWell with the vision of making mental healthcare accessible to everyone.",
-      image: "/https://aashishkhadka.com.np/wp-content/uploads/2025/01/aashish-khadka-digital-marketing-in-nepal-scaled.jpeg?height=300&width=300&text=Dr.+Aashish+Khadka",
+      image: "https://scontent.fktm1-1.fna.fbcdn.net/v/t39.30808-6/465783672_1627584521124209_324002651127515382_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeHhkwyhTkHHU6kBgtsbC1W5YX771tSjQXFhfvvW1KNBcR4a3rfEX5qxKkvOaZu0S2g27hhgs5a6zu2nPxzmjlWT&_nc_ohc=Wx90UEKjb58Q7kNvgG7EgUW&_nc_oc=AdmWeRwV5a5jWf6NCA7nP-2Cn-XOjsJw1tc6oU1eRHnGkkUmtH1gHQxskRnlae2nN-E&_nc_zt=23&_nc_ht=scontent.fktm1-1.fna&_nc_gid=X7If00ho8o1rCkk-6koHsg&oh=00_AYErhdBgcE4Tt__msj0eFRPPpmCEmV5EWUKUChrwWD9X8Q&oe=67EF384E"
     },
     {
       name: "Dr. Sumana Shrestha",
       role: "Clinical Psychologist",
       bio: "Dr. Sumana Shrestha specializes in cognitive behavioral therapy and mindfulness-based interventions. She has extensive experience working with individuals dealing with depression, anxiety, and trauma.",
-      image: "/placeholder.svg?height=300&width=300&text=Dr.+Sumana+Shrestha",
+      image: "https://scontent.fktm1-1.fna.fbcdn.net/v/t39.30808-6/469290505_9639834722727703_4161734008847093895_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeF9oRqJpDSB4QRBNU8QvRoJvtbJS-bVWmO-1slL5tVaYyIfOx3G-R4kqT_omvyaAFqg0LJ6RPhiI9wxua14IO-5&_nc_ohc=TBTci3BiDtQQ7kNvgHp5Ifl&_nc_oc=AdkWj2_5a68uSXW2Op-oyJB6-hqamnc6BSAxHXy_Bwz9eofc7rOWyInuEAtfCye7iPI&_nc_zt=23&_nc_ht=scontent.fktm1-1.fna&_nc_gid=8U9_d_ZJ5QVzRGdGjplYzw&oh=00_AYFxOSFHInGbPNqnRSMjbH2i53G6_Srj5tH-YDqTyJ8W5g&oe=67EF3BF8",
     },
     {
-      name: "Saran Shrestha",
+      name: "Dr. Saran Shrestha",
       role: "Chief Technology Officer",
       bio: "Saran Shrestha leads our technology team, bringing over 8 years of experience in developing secure and user-friendly healthcare applications. He is passionate about using technology to improve mental health outcomes.",
-      image: "/placeholder.svg?height=300&width=300&text=Saran+Shrestha",
+      image: "https://scontent.fktm1-1.fna.fbcdn.net/v/t39.30808-6/400606491_1046497376389125_7806142634940532087_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeFT7KbEbeNdAM-njOv-dP3LKaolLIiZsigpqiUsiJmyKMOO-4J5_PdMjf-lhlSsRck5ezdxqdamfUpxn0Miq8UX&_nc_ohc=ndCOYDQnaf4Q7kNvgGmCm6h&_nc_oc=AdmbXt40DkXdqxZc20Vfx4oUoE67MF2QsMDR3exJm6q0tqUFC5K7FkY9IOsSXQJdnSo&_nc_zt=23&_nc_ht=scontent.fktm1-1.fna&_nc_gid=pUKaCejyZuMYUxf2HoGRAw&oh=00_AYE5G9nO0pFkx46VJfO7GrSd8t9PrrbO6vQlxcC_neBbuw&oe=67EF2272",
     },
     {
-      name: "Sabita Upadhya",
+      name: "Dr. Sabita Upadhya",
       role: "Mental Health Counselor",
       bio: "Sabita Upadhya is a licensed mental health counselor with expertise in depression, anxiety, and relationship issues. She believes in a holistic approach to mental health and is dedicated to helping clients achieve emotional well-being.",
-      image: "/placeholder.svg?height=300&width=300&text=Sabita+Upadhya",
+      image: "https://instagram.fktm1-1.fna.fbcdn.net/v/t39.30808-6/449135713_18082514449471781_2636828516721715602_n.jpg?stp=dst-jpg_e35_tt6&cb=30a688f7-4a514005&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0uaW1hZ2VfdXJsZ2VuLjE0NDB4MTgwMC5zZHIuZjMwODA4LmRlZmF1bHRfaW1hZ2UifQ&_nc_ht=instagram.fktm1-1.fna.fbcdn.net&_nc_cat=105&_nc_oc=Q6cZ2QEXQGpa8E2qLC4hrWC_C1pIE4V-324V0LuO7O_6yh8TuZ1ZdNTMFNyThENsuks7PNI&_nc_ohc=Z2tubD0bcI8Q7kNvgF1W94S&_nc_gid=ki8Qq0xPJQzmiTMk-BQ64w&edm=APoiHPcAAAAA&ccb=7-5&ig_cache_key=MzM5ODMzMjc1NDQ4MjcyODQxOA%3D%3D.3-ccb7-5-cb30a688f7-4a514005&oh=00_AYH0N7mCoSqFmdX9PzKtNOF9ZXh3FvWcrYArimzRTpTEAg&oe=67EF1B6A&_nc_sid=22de04",
     },
   ]
 
